@@ -31,7 +31,7 @@ class ViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.layer.borderWidth = 2
         label.layer.cornerRadius = 12
-        label.text = "👨‍🏫"
+        label.text = "🧞‍♀️"
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 96)
         label.widthAnchor.constraint(equalTo: label.heightAnchor).isActive = true
@@ -54,6 +54,18 @@ class ViewController: UIViewController {
         keyButton.setTitle("Key", for: .normal)
         keyButton.addTarget(self, action: #selector(keyButtonTapped), for: .touchUpInside)
         
+        let squashButton = UIButton(type: .system)
+        squashButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(squashButton)
+        squashButton.setTitle("Squash", for: .normal)
+        squashButton.addTarget(self, action: #selector(squashButtonTapped), for: .touchUpInside)
+        
+        let anticipationButton = UIButton(type: .system)
+        anticipationButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(anticipationButton)
+        anticipationButton.setTitle("Anticipation", for: .normal)
+        anticipationButton.addTarget(self, action: #selector(anticipationButtonTapped), for: .touchUpInside)
+        
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -63,6 +75,8 @@ class ViewController: UIViewController {
         stackView.addArrangedSubview(rotateButton)
         stackView.addArrangedSubview(springButton)
         stackView.addArrangedSubview(keyButton)
+        stackView.addArrangedSubview(squashButton)
+        stackView.addArrangedSubview(anticipationButton)
         
         
         NSLayoutConstraint.activate([
@@ -152,7 +166,25 @@ class ViewController: UIViewController {
     }
     
     @objc private func anticipationButtonTapped() {
+        label.center = view.center
         
-    }
+        let animationBlock = {
+            
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.1) {
+                self.label.transform = CGAffineTransform(rotationAngle: CGFloat.pi / 16.0)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(rotationAngle: -1 * CGFloat.pi / 16.0)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.8) {
+                self.label.center = CGPoint(
+                    x: self.view.bounds.size.width + self.label.bounds.size.width,
+                    y: self.view.center.y)
+            }
+        }
+        
+        UIView.animateKeyframes(withDuration: 1.5, delay: 0, options: [], animations: animationBlock, completion: nil)    }
 }
 
