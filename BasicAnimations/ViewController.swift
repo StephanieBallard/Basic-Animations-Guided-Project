@@ -100,11 +100,55 @@ class ViewController: UIViewController {
     @objc private func keyButtonTapped() {
         label.center = view.center
         
-        UIView.animateKeyframes(withDuration: <#T##TimeInterval#>, delay: <#T##TimeInterval#>, options: <#T##UIView.KeyframeAnimationOptions#>, animations: <#T##() -> Void#>, completion: <#T##((Bool) -> Void)?##((Bool) -> Void)?##(Bool) -> Void#>)
+        UIView.animateKeyframes(withDuration: 5.0, delay: 0, options: [], animations: {
+           
+            // Animation step 1
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.25) {
+                self.label.transform = CGAffineTransform(rotationAngle: CGFloat.pi/4)
+            }
+            // step 2
+            UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.25) {
+                self.label.transform = .identity
+            }
+            // step 3
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.25) {
+                self.label.center = CGPoint(x: self.view.center.x, y: self.view.center.y - 50)
+            }
+            // step 4
+            UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.25) {
+                self.label.center = self.view.center
+            }
+            
+        }, completion: nil)
     }
     
     @objc private func squashButtonTapped() {
+        label.center = CGPoint(x: view.center.x, y: -label.bounds.size.height)
         
+        let animationBlock = {
+            
+            UIView.addKeyframe(withRelativeStartTime: 0, relativeDuration: 0.4) {
+                self.label.center = self.view.center
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(scaleX: 1.7, y: 0.6)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.2) {
+                self.label.transform = CGAffineTransform(scaleX: 0.6, y: 1.7)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.15) {
+                self.label.transform = CGAffineTransform(scaleX: 1.11, y: 0.9)
+            }
+            
+            UIView.addKeyframe(withRelativeStartTime: 0.85, relativeDuration: 0.15) {
+                self.label.transform = .identity
+            }
+        }
+        
+        UIView.animateKeyframes(withDuration: 1.5, delay: 0, options: [], animations: animationBlock, completion: nil)
     }
     
     @objc private func anticipationButtonTapped() {
